@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-__version__ = '0.0.11'
+__version__ = '0.0.1'
 
 try:
     from thumbor_greenthumb_filter.leaf_area import Filter  # NOQA
