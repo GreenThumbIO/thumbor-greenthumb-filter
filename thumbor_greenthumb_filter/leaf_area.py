@@ -47,7 +47,7 @@ class Filter(BaseFilter):
         masked_output = cv2.bitwise_and(image_data, image_data, mask = mask)
         self.engine.image = Image.fromarray(masked_output)
 
-    def detection_mask(leaf_lower=(0, 0, 0), leaf_upper=(255, 255, 255))
+    def detection_mask(leaf_lower=(0, 0, 0), leaf_upper=(255, 255, 255)):
         blurred = cv2.GaussianBlur(self.engine.image, (11, 11), 0)
         hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, leaf_lower, leaf_upper)
