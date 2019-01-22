@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import cv2
+import numpy as np
 from PIL import Image
 from thumbor.filters import BaseFilter, filter_method
 
@@ -17,11 +18,14 @@ class Filter(BaseFilter):
     def leaf_area(self, h_min=0, s_min=0, v_min=0, h_max=255, s_max=255, v_max=255):
         leaf_lower = (h_min, s_min, v_min)
         leaf_upper = (h_max, s_max, v_max)
-        image_data = np.array(self.engine.image)
 
-        mask = detection_mask(leaf_lower, leaf_upper)
+        image =  np.array(self.engine.image)
+        
+        blurred = cv2.GaussianBlur(image, (11, 11), 0)
+        hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+        mask = cv2.inRange(hsv, leaf_lower, leaf_upper)
 
-        masked_output = cv2.bitwise_and(image_data, simage_data, mask = mask)
+        masked_output = cv2.bitwise_and(image, image, mask = mask)
         self.engine.image = Image.fromarray(masked_output)
 
     @filter_method(
@@ -35,7 +39,11 @@ class Filter(BaseFilter):
     def bud_area(self, h_min=0, s_min=0, v_min=0, h_max=255, s_max=255, v_max=255):
         leaf_lower = (h_min, s_min, v_min)
         leaf_upper = (h_max, s_max, v_max)
-        image_data = np.array(self.engine.image)
+
+        image = self.engine.image.convert('RGB')
+        image_data = np.array(pil_image)
+        # Convert RGB to BGR
+        image_data_bgr = open_cv_image[:, :, ::-1].copy()
 
         mask = detection_mask(leaf_lower, leaf_upper)
 
@@ -47,7 +55,7 @@ class Filter(BaseFilter):
         masked_output = cv2.bitwise_and(image_data, image_data, mask = mask)
         self.engine.image = Image.fromarray(masked_output)
 
-    def detection_mask(leaf_lower=(0, 0, 0), leaf_upper=(255, 255, 255)):
-        blurred = cv2.GaussianBlur(self.engine.image, (11, 11), 0)
+    def detection_mask(self, image_data, leaf_lower=(0, 0, 0), leaf_upper=(255, 255, 255)):
+        blurred = cv2.GaussianBlur(image_data, (11, 11), 0)
         hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, leaf_lower, leaf_upper)
