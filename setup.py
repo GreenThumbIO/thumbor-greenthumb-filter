@@ -24,10 +24,9 @@ setup(
 Text filter for thumbor.
 ''',
     keywords='thumbor filter',
-    author='Wongnai.com',
-    author_email='tanapoln@wongnai.com',
+    author='GreenThumb.io',
+    author_email='justin@greenthumb.io',
     url='',
-    license='MIT',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
