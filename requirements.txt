@@ -1,2 +1,2 @@
-thumbor>=2.7.0
+thumbor
 pillow
